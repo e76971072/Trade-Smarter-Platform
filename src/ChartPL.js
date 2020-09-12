@@ -27,12 +27,15 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default function ChartPL () {
-    const [ profit, setProfit] = useState ([])
-    const [ loss, setLoss] = useState ([])
-    const [symbol, setSymbol] = useState("")
+export default function ChartPL ( props) {
+    const [ profit1, setProfit] = useState ([])
+    const [ loss1, setLoss] = useState ([])
+    const [symbol1, setSymbol] = useState("")
     var form = new FormData();
     const classes = useStyles();
+    const loss = props.lossPoints
+    const profit = props.profitPoints
+    const symbol = props.symbol
     function BasicTextFields() {
 
     return (
@@ -43,38 +46,38 @@ export default function ChartPL () {
         </form>
         );
     }
-    useEffect(() => {
-        form.append ( "shortStrike", 318 )
-        form.append ("longStrike",312 )
-        form.append ("bidShortStrike",4.15 )
-        form.append ("bidLongStrike",3.15 )
-        form.append ( "symbol",  "TSLA")
-        form.append ( "underlyingPrice", 342)
+    // useEffect(() => {
+    //     form.append ( "shortStrike", 318 )
+    //     form.append ("longStrike",312 )
+    //     form.append ("bidShortStrike",4.15 )
+    //     form.append ("bidLongStrike",3.15 )
+    //     form.append ( "symbol",  "TSLA")
+    //     form.append ( "underlyingPrice", 342)
         
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:5000/plDataPoints',
-            data: form, 
-            headers:{
-                'Accept': 'application/json', 
-                'Content-Type': 'multipart/form-data' }
-            })
-            .then(function (response) {
-                //handle success
-                // this.setState ( { dataPoints: response.data.dataPoints})
-                console.log(response.data);
-                setProfit (response.data.profitDataPoints);
-                setLoss (response.data.lossDataPoints);
-                setSymbol (response.data.symbol)
+    //     axios({
+    //         method: 'post',
+    //         url: 'http://127.0.0.1:5000/plDataPoints',
+    //         data: form, 
+    //         headers:{
+    //             'Accept': 'application/json', 
+    //             'Content-Type': 'multipart/form-data' }
+    //         })
+    //         .then(function (response) {
+    //             //handle success
+    //             // this.setState ( { dataPoints: response.data.dataPoints})
+    //             console.log(response.data);
+    //             setProfit (response.data.profitDataPoints);
+    //             setLoss (response.data.lossDataPoints);
+    //             setSymbol (response.data.symbol)
 
-            })
-            .catch(function (response) {
-                //handle error
-                console.log("Error Response");
-            });
+    //         })
+    //         .catch(function (response) {
+    //             //handle error
+    //             console.log("Error Response");
+    //         });
 
        
-    },[])
+    // },[])
         
 
        

@@ -32,8 +32,10 @@ function App() {
     const [symbolPrice, setSymbolPrice] = React.useState(0); 
     const [symbol, setSymbol] = React.useState(); 
     const [display, setDisplay] = React.useState(false); 
+    const [ profit, setProfit] = useState ([])
+    const [ loss, setLoss] = useState ([])
     const [strategy, setStrategy] = React.useState({
-          type: "", 
+      option: {
           shortPut: {
               strike: 0, 
               price: 0, 
@@ -51,14 +53,13 @@ function App() {
               price: 0, 
           },  
           
-    })
-    
-  
-    
+    }
+  })
+
     const handleChange = (event) => {
       setValue(event.target.value);
-      setStrategy ({type: event.target.value})
-    };
+      console.log(value)
+    }
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -93,33 +94,83 @@ function App() {
    }; 
   
   const handleClose = () => {
-      setOpen(false);
+      setOpen(!open);
     };
   
   const handleOption = (event) => {
         console.log (event.currentTarget.id)
     }
   
-  const handleSubmit = () => {
-      console.log(strategy)
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    const fOption = new FormData()
+    fOption.append("type", value)
+    fOption.append("symbol", symbol)
+    fOption.append("underlyingPrice", symbolPrice)
+    fOption.append ( "data", JSON.stringify(strategy))
+    axios({
+      method: 'post',
+      url: 'http://127.0.0.1:5000/plDataPoints',
+      data: fOption, 
+      headers:{
+          'Accept': 'application/json', 
+          'Content-Type': 'multipart/form-data' }
+      })
+      .then(function (response) {
+        //handle success
+        // this.setState ( { dataPoints: response.data.dataPoints})
+        setProfit (response.data.profitDataPoints);
+        setLoss (response.data.lossDataPoints);
+        // console.log (response.data)
+        
+    })
+    .catch(function (response) {
+        //handle error
+        console.log("Error Response");
+    });
+    
     }
 
 
   //  ************  put section : short and long **********************
   const setShortPut = (event) => {
-    setStrategy( strategy=> ({...strategy, shortPut: { price: strategy.shortPut.price,  strike: event.currentTarget.value} }) )}; 
+
+
+    const s  = {...strategy}
+    s.option.shortPut.strike = event.target.value
+    setStrategy(s)
+  //   console.log(event.target.value)
+  //   setStrategy( strategy=> ({ 
+  //     option: {
+  //     ...strategy.option,            // copy all other key-value pairs of food object
+  //     shortPut: {                     // specific object of food object
+  //       ...strategy.option.shortPut,   // copy all pizza key-value pairs
+  //       strike: event.target.value          // update value of specific key
+  //     }
+  //   }
+  // }))}
+  }
   
 
   const setLongPut = (event) => {
-    setStrategy( strategy=> ({...strategy, longPut: {price: strategy.longPut.price,  strike: event.currentTarget.value} }) )}; 
+    const s  = {...strategy}
+    s.option.longPut.strike = event.target.value
+    setStrategy(s)
+  }
 
   const setShortPutPrice = (event) => {
-      setStrategy( strategy=> ({...strategy, shortPut: { strike: strategy.shortPut.strike, price: event.target.value} }) )}; 
+    const s  = {...strategy}
+    s.option.shortPut.price = event.target.value
+    setStrategy(s)
+  }
+  
         
     
   const setLongPutPrice = (event) => {
-      setStrategy( strategy=> ({...strategy, longPut: { strike: strategy.longPut.strike, price: event.target.value} }) )}; 
-  
+    const s  = {...strategy}
+    s.option.longPut.price = event.target.value
+    setStrategy(s)
+  }
 
 
   //  ************  put section : short and long **********************
@@ -134,10 +185,6 @@ function App() {
 
   const setLongCall= (event) => {
       setStrategy ({longCall:{strike: event.target.value} })}
-  
-  
-
-      
   
   const setShortCallPrice = (event) => {
       setStrategy ({shortCall:{price: event.target.value} })
@@ -454,13 +501,13 @@ function App() {
             Cancel
   
             </Button>
-            <Button onClick={ (event) => { handleSubmit(); handleClose ()}} color="primary" autoFocus>
+            <Button onClick={ (event) => { handleSubmit(event); handleClose ()}} color="primary" autoFocus>
               Submit
             </Button>
           </DialogActions>
         </Dialog>
       </div>
-        < ChartPL/>
+        < ChartPL symbol = {symbol} lossPoints={loss} profitPoints={profit}/>
     </div>
   );
   }
