@@ -52,7 +52,6 @@ function App() {
               strike: 0, 
               price: 0, 
           },  
-          
     }
   })
 
@@ -110,7 +109,7 @@ function App() {
     fOption.append ( "data", JSON.stringify(strategy))
     axios({
       method: 'post',
-      url: 'http://127.0.0.1:5000/plDataPoints',
+      url: 'http://127.0.0.1:5000/option/strategy/'+value,
       data: fOption, 
       headers:{
           'Accept': 'application/json', 
@@ -121,6 +120,7 @@ function App() {
         // this.setState ( { dataPoints: response.data.dataPoints})
         setProfit (response.data.profitDataPoints);
         setLoss (response.data.lossDataPoints);
+        console.log (response.data)
         // console.log (response.data)
         
     })
@@ -286,6 +286,26 @@ function App() {
             </Button>
             <br/>
             <br/>
+              {/*  Input text to find the symbol price */}
+              <span><TextField 
+                  id="outlined-basic" 
+                  label="Symbol" 
+                  variant="outlined" 
+                  onChange= { (event) => handleSymbolChange(event)}
+              />
+  
+              <h3> $ {symbolPrice}</h3></span>  
+  
+              {/*  Button sending request to get price of the symbol  */}
+              <Button
+                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
+                  variant="contained"
+                  color="primary"
+                  onClick = { () => handleSymbolPrice ()}
+              >
+                 $ Get Price
+              </Button>
+          <div style= { display == false? style.Nonedisplay : style.display} >
             <TextField style= {{ margin: "1%"}} 
                   type= "number" id="outlined-basic" 
                   label="Long Strike Put" 
@@ -309,6 +329,7 @@ function App() {
                   label="$" 
                   variant="outlined" 
                   onChange={(event) => setShortPutPrice(event)}/>
+            </div>
             </div>
           )
       }
@@ -507,7 +528,12 @@ function App() {
           </DialogActions>
         </Dialog>
       </div>
-        < ChartPL symbol = {symbol} lossPoints={loss} profitPoints={profit}/>
+        < ChartPL 
+          symbol = {symbol} 
+          lossPoints={loss} 
+          profitPoints={profit}
+          credit={strategy.option.shortPut.price - strategy.option.longPut.price}
+          maxLoss={strategy.option.shortPut.strike - strategy.option.longPut.strike}/>
     </div>
   );
   }

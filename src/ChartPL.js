@@ -35,6 +35,8 @@ export default function ChartPL ( props) {
     const classes = useStyles();
     const loss = props.lossPoints
     const profit = props.profitPoints
+    const credit  = props.credit.toFixed(2)
+    const maxLoss = props.maxLoss.toFixed(2)
     const symbol = props.symbol
     function BasicTextFields() {
 
@@ -88,6 +90,12 @@ export default function ChartPL ( props) {
 			title:{
 				text: symbol
             },
+       subtitles: [{
+              text: "Credit: $" + credit
+              },
+              {
+              text: "Max Loss: $" + maxLoss
+              }],
 			axisY: {
 				title: "Profit/Loss",
 				suffix: "$"
@@ -101,7 +109,7 @@ export default function ChartPL ( props) {
 				xValueFormatString: "Profit",
 				yValueFormatString: "#0.## ",
 				toolTipContent: " <span style=\"color:#6D78AD\">{x}</span><br><b>$</b> {y[0]}<br><b>Strike:</b> {y[2]}",
-				dataPoints: profit
+				dataPoints:profit
             },
             {
 				type: "rangeArea",
