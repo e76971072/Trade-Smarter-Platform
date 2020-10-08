@@ -1,9 +1,9 @@
-import React, { /*useEffect,*/ useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// import logo from './logo.svg';
 import "./App.css";
-// import Menu from './MenuCard'
-// import ActiveListDaily from './ActiveListDaily'
+import Menu from "./MenuCards";
+import MenuCards from "./MenuCards";
+import ActiveListDaily from "./ActiveListDaily";
 import ChartPL from "./ChartPL";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
@@ -20,15 +20,12 @@ import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import Short from "@material-ui/icons/ExposureNeg1";
 import Long from "@material-ui/icons/ExposurePlus1";
-// import SelectTr from './SelectTr'
-import MenuCard from "./MenuCard";
 
 function App() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("bull-put");
   const [symbolPrice, setSymbolPrice] = React.useState(0);
   const [symbol, setSymbol] = React.useState("Symbol");
-  // const [display, setDisplay] = React.useState(false);
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
   const [strategy, setStrategy] = React.useState({
@@ -93,9 +90,9 @@ function App() {
     setOpen(!open);
   };
 
-  // const handleOption = (event) => {
-  //   console.log(event.currentTarget.id);
-  // };
+  const handleOption = (event) => {
+    console.log(event.currentTarget.id);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -149,26 +146,35 @@ function App() {
     setStrategy(s);
   };
 
-  //  ************  put section : short and long **********************
+  //  ************ end put section : short and long **********************
 
   //  ************  call section : short and long **********************
 
   const setShortCall = (event) => {
-    setStrategy({ shortCall: { strike: event.target.value } });
+    const s = { ...strategy };
+    console.log(event.target.value);
+    s.option.shortCall.strike = event.target.value;
+    setStrategy(s);
   };
 
   const setLongCall = (event) => {
-    setStrategy({ longCall: { strike: event.target.value } });
+    const s = { ...strategy };
+    s.option.longCall.strike = event.target.value;
+    setStrategy(s);
   };
 
   const setShortCallPrice = (event) => {
-    setStrategy({ shortCall: { price: event.target.value } });
+    const s = { ...strategy };
+    s.option.shortCall.price = event.target.value;
+    setStrategy(s);
   };
   const setLongCallPrice = (event) => {
-    setStrategy({ longCall: { price: event.target.value } });
+    const s = { ...strategy };
+    s.option.longCall.price = event.target.value;
+    setStrategy(s);
   };
 
-  //  ************  put section : short and long **********************
+  //  ************ end call section : short and long **********************
 
   const style = {
     button: {
@@ -579,21 +585,9 @@ function App() {
 
           <br />
           <br />
+
           <TextField
-            style={{ margin: "1%" }}
-            type="number"
-            id="outlined-basic"
-            label="Short Call"
-            variant="outlined"
-          />
-          <TextField
-            style={{ margin: "1%" }}
-            type="number"
-            id="outlined-basic"
-            label="$"
-            variant="outlined"
-          />
-          <TextField
+            onChange={(event) => setLongCall(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -601,6 +595,7 @@ function App() {
             variant="outlined"
           />
           <TextField
+            onChange={(event) => setLongCallPrice(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -608,6 +603,23 @@ function App() {
             variant="outlined"
           />
           <TextField
+            onChange={(event) => setShortCall(event)}
+            style={{ margin: "1%" }}
+            type="number"
+            id="outlined-basic"
+            label="Short Call"
+            variant="outlined"
+          />
+          <TextField
+            onChange={(event) => setShortCallPrice(event)}
+            style={{ margin: "1%" }}
+            type="number"
+            id="outlined-basic"
+            label="$"
+            variant="outlined"
+          />
+          <TextField
+            onChange={(event) => setShortPut(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -615,6 +627,7 @@ function App() {
             variant="outlined"
           />
           <TextField
+            onChange={(event) => setShortPutPrice(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -622,6 +635,7 @@ function App() {
             variant="outlined"
           />
           <TextField
+            onChange={(event) => setLongPut(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -629,6 +643,7 @@ function App() {
             variant="outlined"
           />
           <TextField
+            onChange={(event) => setLongPutPrice(event)}
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
@@ -643,8 +658,33 @@ function App() {
   return (
     <div className="App">
       <div>
-        <div>
-          <MenuCard />
+        {/* <div>
+          <MenuCards />
+          <ActiveListDaily />
+        </div> */}
+        <div style={{ textAlign: "center", marginTop: "10%" }}>
+          <Button
+            style={{ backgroundColor: "green", color: "black" }}
+            variant="contained"
+            onClick={handleClickOpen}
+          >
+            Option Strategy Test
+          </Button>
+        </div>
+        <div style={style.display}>
+          <ChartPL
+            symbol={symbol}
+            lossPoints={loss}
+            profitPoints={profit}
+            credit={
+              strategy.option.shortPut.price - strategy.option.longPut.price
+            }
+            maxLoss={
+              strategy.option.shortPut.strike -
+              strategy.option.longPut.strike -
+              (strategy.option.shortPut.price - strategy.option.longPut.price)
+            }
+          />
         </div>
         <Dialog
           open={open}
@@ -711,30 +751,6 @@ function App() {
             </Button>
           </DialogActions>
         </Dialog>
-      </div>
-      <div style={profit.length === 0 ? style.Nonedisplay : style.display}>
-        <ChartPL
-          symbol={symbol}
-          lossPoints={loss}
-          profitPoints={profit}
-          credit={
-            strategy.option.shortPut.price - strategy.option.longPut.price
-          }
-          maxLoss={
-            strategy.option.shortPut.strike -
-            strategy.option.longPut.strike -
-            (strategy.option.shortPut.price - strategy.option.longPut.price)
-          }
-        />
-      </div>
-      <div>
-        <Button
-          style={{ backgroundColor: "green", color: "black" }}
-          variant="contained"
-          onClick={handleClickOpen}
-        >
-          Option Strategy Test
-        </Button>
       </div>
     </div>
   );
