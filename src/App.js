@@ -693,7 +693,7 @@ function App() {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Please enter your trade !"}
+            {"Enter your trade"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -708,27 +708,27 @@ function App() {
                   <FormControlLabel
                     value="bull-put"
                     control={<Radio />}
-                    label="Bull Put Credit Spread (bullish)"
+                    label="Bull Put Credit Spread (Bullish)"
                   />
                   <FormControlLabel
                     value="bear-put"
                     control={<Radio />}
-                    label="Bear Put Debit Spread (bearish)"
+                    label="Bear Put Debit Spread (Bearish)"
                   />
                   <FormControlLabel
                     value="bear-call"
                     control={<Radio />}
-                    label="Bear Call Credit Spread (bearish)"
+                    label="Bear Call Credit Spread (Bearish)"
                   />
                   <FormControlLabel
                     value="bull-call"
                     control={<Radio />}
-                    label="Bull Call Dedit Spread (bullish)"
+                    label="Bull Call Debit Spread (Bullish)"
                   />
                   <FormControlLabel
                     value="iron-normal"
                     control={<Radio />}
-                    label="Iron Condor Normal (neutral)"
+                    label="Iron Condor (Neutral)"
                   />
                 </RadioGroup>
               </FormControl>
