@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class MenuCard extends React.PureComponent {
+export default class MenuCards extends React.PureComponent {
   constructor(props) {
     super(props);
     this._ref = React.createRef();
@@ -51,7 +51,6 @@ export default class MenuCard extends React.PureComponent {
               s: "INDEX:NKY",
               d: "Nikkei 225",
             },
-
             {
               s: "INDEX:DEU30",
               d: "DAX Index",

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+
 import "./App.css";
-import Menu from "./MenuCard";
+import Menu from "./MenuCards";
+import MenuCards from "./MenuCards";
 import ActiveListDaily from "./ActiveListDaily";
 import ChartPL from "./ChartPL";
 import axios from "axios";
@@ -18,7 +20,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import Short from "@material-ui/icons/ExposureNeg1";
 import Long from "@material-ui/icons/ExposurePlus1";
-import MenuCard from "./MenuCard";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -188,7 +189,7 @@ function App() {
   };
 
   function TypeOfStrategy() {
-    if (value == "bull-put") {
+    if (value === "bull-put") {
       return (
         <div>
           <br />
@@ -271,7 +272,7 @@ function App() {
         </div>
       );
     }
-    if (value == "bear-put") {
+    if (value === "bear-put") {
       return (
         <div>
           <br />
@@ -354,7 +355,7 @@ function App() {
         </div>
       );
     }
-    if (value == "bull-call") {
+    if (value === "bull-call") {
       return (
         <div>
           <br />
@@ -434,7 +435,7 @@ function App() {
         </div>
       );
     }
-    if (value == "bear-call") {
+    if (value === "bear-call") {
       return (
         <div>
           <br />
@@ -517,7 +518,7 @@ function App() {
         </div>
       );
     }
-    if (value == "iron-normal") {
+    if (value === "iron-normal") {
       return (
         <div>
           <br />
@@ -658,7 +659,7 @@ function App() {
     <div className="App">
       <div>
         {/* <div>
-          <MenuCard />
+          <MenuCards />
           <ActiveListDaily />
         </div> */}
         <div style={{ textAlign: "center", marginTop: "10%" }}>
@@ -692,7 +693,7 @@ function App() {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Please enter your trade !"}
+            {"Enter your trade"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -707,27 +708,27 @@ function App() {
                   <FormControlLabel
                     value="bull-put"
                     control={<Radio />}
-                    label="Bull Put Credit Spread (bullish)"
+                    label="Bull Put Credit Spread (Bullish)"
                   />
                   <FormControlLabel
                     value="bear-put"
                     control={<Radio />}
-                    label="Bear Put Debit Spread (bearish)"
+                    label="Bear Put Debit Spread (Bearish)"
                   />
                   <FormControlLabel
                     value="bear-call"
                     control={<Radio />}
-                    label="Bear Call Credit Spread (bearish)"
+                    label="Bear Call Credit Spread (Bearish)"
                   />
                   <FormControlLabel
                     value="bull-call"
                     control={<Radio />}
-                    label="Bull Call Dedit Spread (bullish)"
+                    label="Bull Call Debit Spread (Bullish)"
                   />
                   <FormControlLabel
                     value="iron-normal"
                     control={<Radio />}
-                    label="Iron Condor Normal (neutral)"
+                    label="Iron Condor (Neutral)"
                   />
                 </RadioGroup>
               </FormControl>

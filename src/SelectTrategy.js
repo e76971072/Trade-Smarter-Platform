@@ -129,7 +129,7 @@ export default function AlertDialog() {
   };
 
   function TypeOfStrategy() {
-    if (value == "bull-put") {
+    if (value === "bull-put") {
       return (
         <div>
           <h3> Example </h3>
@@ -174,7 +174,7 @@ export default function AlertDialog() {
           >
             $ Get Price
           </Button>
-          <div style={display == false ? style.Nonedisplay : style.display}>
+          <div style={display === false ? style.Nonedisplay : style.display}>
             <TextField
               style={{ margin: "1%" }}
               type="number"
@@ -207,7 +207,7 @@ export default function AlertDialog() {
         </div>
       );
     }
-    if (value == "bear-put") {
+    if (value === "bear-put") {
       return (
         <div>
           <h3> Example </h3>
@@ -266,7 +266,7 @@ export default function AlertDialog() {
         </div>
       );
     }
-    if (value == "bull-call") {
+    if (value === "bull-call") {
       return (
         <div>
           <h3> Example </h3>
@@ -323,7 +323,7 @@ export default function AlertDialog() {
         </div>
       );
     }
-    if (value == "bear-call") {
+    if (value === "bear-call") {
       return (
         <div>
           <h3> Example </h3>
@@ -379,7 +379,7 @@ export default function AlertDialog() {
         </div>
       );
     }
-    if (value == "iron-normal") {
+    if (value === "iron-normal") {
       return (
         <div>
           <h3> Example </h3>
@@ -495,9 +495,7 @@ export default function AlertDialog() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Please enter your trade !"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Enter your trade"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {/* <ButtonGroup
@@ -509,7 +507,7 @@ export default function AlertDialog() {
         <Button color="secondary" id= {1} onClick= { (event) => handleOption (event)}>Bull Put Credit Spread</Button>
         <Button >Bull Put Debit Spread</Button>
         <Button color="secondary">Bull Call Credit Spread</Button>
-        <Button>Bull Call Dedit Spread</Button>
+        <Button>Bull Call Debit Spread</Button>
 
       </ButtonGroup> */}
             <FormControl component="fieldset">
@@ -523,27 +521,27 @@ export default function AlertDialog() {
                 <FormControlLabel
                   value="bull-put"
                   control={<Radio />}
-                  label="Bull Put Credit Spread (bullish)"
+                  label="Bull Put Credit Spread (Bullish)"
                 />
                 <FormControlLabel
                   value="bear-put"
                   control={<Radio />}
-                  label="Bull Put Dedit Spread (bearish)"
+                  label="Bull Put Debit Spread (Bearish)"
                 />
                 <FormControlLabel
                   value="bear-call"
                   control={<Radio />}
-                  label="Bull Call Credit Spread (bearish)"
+                  label="Bull Call Credit Spread (Bearish)"
                 />
                 <FormControlLabel
                   value="bull-call"
                   control={<Radio />}
-                  label="Bull Call Dedit Spread (bullish)"
+                  label="Bull Call Debit Spread (Bullish)"
                 />
                 <FormControlLabel
                   value="iron-normal"
                   control={<Radio />}
-                  label="Iron Condor Normal (neutral)"
+                  label="Iron Condor (Neutral)"
                 />
               </RadioGroup>
             </FormControl>
