@@ -20,6 +20,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField'
 import Short from '@material-ui/icons/ExposureNeg1';
 import Long from '@material-ui/icons/ExposurePlus1';// import SelectTr f''rom './SelectTr'
+import MenuCard from './MenuCard';
 
 
 
@@ -194,10 +195,10 @@ function App() {
               margin: "1%"
           }, 
           display: {
-              display: "none"
+              display: "in-line"
           },
           Nonedisplay: {
-              display: "in-line"
+            visibility: "hidden"
           }
     }
   
@@ -247,7 +248,7 @@ function App() {
                   Buy 340 Put
               </Button>
               
-                  <div style= { display == false? style.Nonedisplay : style.display} >
+                  <div  >
                       <TextField onChange={(event) => setShortPut(event)}  style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Put" variant="outlined" />
                       <TextField onChange={(event) => setShortPutPrice(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
                       <TextField onChange={(event) => setLongPut(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Put" variant="outlined" />
@@ -301,7 +302,7 @@ function App() {
                 Sell 345 Put
             </Button>
             
-          <div style= { display == false? style.Nonedisplay : style.display} >
+          <div  >
             <TextField style= {{ margin: "1%"}} 
                   type= "number" id="outlined-basic" 
                   label="Long Put" 
@@ -530,7 +531,10 @@ function App() {
     <div className="App">
         
           <div>
-       
+
+        <div>
+          <MenuCard />
+        </div>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -565,12 +569,14 @@ function App() {
           </DialogActions>
         </Dialog>
       </div>
-        < ChartPL 
+      <div style= { profit.length == 0 ? style.Nonedisplay : style.display}>
+        < ChartPL
           symbol = {symbol} 
           lossPoints={loss} 
           profitPoints={profit}
           credit={strategy.option.shortPut.price - strategy.option.longPut.price}
           maxLoss={strategy.option.shortPut.strike - strategy.option.longPut.strike - (strategy.option.shortPut.price - strategy.option.longPut.price)}/>
+        </div>
         <div>
           <Button style={{backgroundColor:"green", color: "black"}} variant="contained" onClick={handleClickOpen}>
             
