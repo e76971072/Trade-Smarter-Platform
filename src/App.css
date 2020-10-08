@@ -16,6 +16,9 @@
     border: 2px solid red;
     position: relative;
 }
+body {
+  background-color: #282c34;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

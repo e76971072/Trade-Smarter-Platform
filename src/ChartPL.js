@@ -48,43 +48,11 @@ export default function ChartPL ( props) {
         </form>
         );
     }
-    // useEffect(() => {
-    //     form.append ( "shortStrike", 318 )
-    //     form.append ("longStrike",312 )
-    //     form.append ("bidShortStrike",4.15 )
-    //     form.append ("bidLongStrike",3.15 )
-    //     form.append ( "symbol",  "TSLA")
-    //     form.append ( "underlyingPrice", 342)
-        
-    //     axios({
-    //         method: 'post',
-    //         url: 'http://127.0.0.1:5000/plDataPoints',
-    //         data: form, 
-    //         headers:{
-    //             'Accept': 'application/json', 
-    //             'Content-Type': 'multipart/form-data' }
-    //         })
-    //         .then(function (response) {
-    //             //handle success
-    //             // this.setState ( { dataPoints: response.data.dataPoints})
-    //             console.log(response.data);
-    //             setProfit (response.data.profitDataPoints);
-    //             setLoss (response.data.lossDataPoints);
-    //             setSymbol (response.data.symbol)
-
-    //         })
-    //         .catch(function (response) {
-    //             //handle error
-    //             console.log("Error Response");
-    //         });
+  
 
        
-    // },[])
-        
-
-       
-        const options = {
-			theme: "dark1",
+      const options = {
+			theme: "dark2",
 			animationEnabled: true,
 			exportEnabled: true,
 			title:{
@@ -94,7 +62,7 @@ export default function ChartPL ( props) {
               text: "Credit: $" + credit
               },
               {
-              text: "Max Loss: $" + maxLoss
+              text: "Max Loss: $" + (maxLoss*100)
               }],
 			axisY: {
 				title: "Profit/Loss",
@@ -104,20 +72,20 @@ export default function ChartPL ( props) {
 			// 	valueFormatString: "MMM YYYY"
 			// },
 			data: [
-			{
-				type: "rangeArea",
-				xValueFormatString: "Profit",
-				yValueFormatString: "#0.## ",
-				toolTipContent: " <span style=\"color:#6D78AD\">{x}</span><br><b>$</b> {y[0]}<br><b>Strike:</b> {y[2]}",
-				dataPoints:profit
-            },
-            {
-				type: "rangeArea",
-				xValueFormatString: "Loss",
-				yValueFormatString: "#0.## ",
-				toolTipContent: " <span style=\"color:#6D78AD\">{x}</span><br><b>$</b> {y[1]}<br><b>Strike:</b> {y[2]}",
-				dataPoints: loss
-            }
+			  { 
+            type: "rangeSplineArea",
+            xValueFormatString: "Profit",
+            yValueFormatString: "#0.## ",
+            toolTipContent: " <span style=\"color:#6D78AD\">{x}</span><br><b>$</b> {y[0]}<br><b>Strike:</b> {y[2]}",
+            dataPoints: profit
+        },
+        {
+            type: "rangeSplineArea",
+            xValueFormatString: "Loss",
+            yValueFormatString: "#0.## ",
+            toolTipContent: " <span style=\"color:#6D78AD\">{x}</span><br><b>$</b> {y[1]}<br><b>Strike:</b> {y[2]}",
+            dataPoints: loss
+        }
         
         ]
             

@@ -19,9 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import TextField from '@material-ui/core/TextField'
 import Short from '@material-ui/icons/ExposureNeg1';
-import Long from '@material-ui/icons/ExposurePlus1Sharp';
-// import SelectTr from './SelectTr'
-
+import Long from '@material-ui/icons/ExposurePlus1';// import SelectTr f''rom './SelectTr'
 
 
 
@@ -30,7 +28,7 @@ function App() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("bull-put");
     const [symbolPrice, setSymbolPrice] = React.useState(0); 
-    const [symbol, setSymbol] = React.useState(); 
+    const [symbol, setSymbol] = React.useState("Symbol"); 
     const [display, setDisplay] = React.useState(false); 
     const [ profit, setProfit] = useState ([])
     const [ loss, setLoss] = useState ([])
@@ -89,7 +87,7 @@ function App() {
       }
     };
   const handleSymbolChange = (event) => {
-      setSymbol (event.currentTarget.value)
+      setSymbol (event.currentTarget.value.toUpperCase())
    }; 
   
   const handleClose = () => {
@@ -116,12 +114,10 @@ function App() {
           'Content-Type': 'multipart/form-data' }
       })
       .then(function (response) {
-        //handle success
-        // this.setState ( { dataPoints: response.data.dataPoints})
-        setProfit (response.data.profitDataPoints);
+       
         setLoss (response.data.lossDataPoints);
+        setProfit (response.data.profitDataPoints)
         console.log (response.data)
-        // console.log (response.data)
         
     })
     .catch(function (response) {
@@ -139,16 +135,6 @@ function App() {
     const s  = {...strategy}
     s.option.shortPut.strike = event.target.value
     setStrategy(s)
-  //   console.log(event.target.value)
-  //   setStrategy( strategy=> ({ 
-  //     option: {
-  //     ...strategy.option,            // copy all other key-value pairs of food object
-  //     shortPut: {                     // specific object of food object
-  //       ...strategy.option.shortPut,   // copy all pizza key-value pairs
-  //       strike: event.target.value          // update value of specific key
-  //     }
-  //   }
-  // }))}
   }
   
 
@@ -159,17 +145,22 @@ function App() {
   }
 
   const setShortPutPrice = (event) => {
-    const s  = {...strategy}
-    s.option.shortPut.price = event.target.value
-    setStrategy(s)
+   
+      const s  = {...strategy}
+      s.option.shortPut.price = event.target.value
+      setStrategy(s)
+    
   }
   
         
     
   const setLongPutPrice = (event) => {
-    const s  = {...strategy}
-    s.option.longPut.price = event.target.value
-    setStrategy(s)
+    
+      const s  = {...strategy}
+      s.option.longPut.price = event.target.value
+      setStrategy(s)
+    
+    
   }
 
 
@@ -184,7 +175,10 @@ function App() {
 
 
   const setLongCall= (event) => {
+    
       setStrategy ({longCall:{strike: event.target.value} })}
+    
+     
   
   const setShortCallPrice = (event) => {
       setStrategy ({shortCall:{price: event.target.value} })
@@ -212,6 +206,27 @@ function App() {
         if ( value == "bull-put" ){
             return (  
               <div>
+                <br/>
+              <br/>
+              {/*  Input text to find the symbol price */}
+              <span><TextField 
+                  id="outlined-basic" 
+                  label= {symbol}
+                  variant="outlined" 
+                  onChange= { (event) => handleSymbolChange(event)}
+              />
+  
+              <h3> $ {symbolPrice}</h3></span>  
+  
+              {/*  Button sending request to get price of the symbol  */}
+              <Button
+                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
+                  variant="contained"
+                  color="primary"
+                  onClick = { () => handleSymbolPrice ()}
+              >
+                 $ Get Price
+              </Button>
               <h3> Example </h3>
               <Button
                   style= {style.button}
@@ -231,12 +246,26 @@ function App() {
               >
                   Buy 340 Put
               </Button>
+              
+                  <div style= { display == false? style.Nonedisplay : style.display} >
+                      <TextField onChange={(event) => setShortPut(event)}  style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Put" variant="outlined" />
+                      <TextField onChange={(event) => setShortPutPrice(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
+                      <TextField onChange={(event) => setLongPut(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Put" variant="outlined" />
+                      <TextField onChange={(event) => setLongPutPrice(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
+                  </div>
+              </div> 
+            )
+        }
+        if ( value == "bear-put" ){
+            
+          return (  
+            <div>
               <br/>
-              <br/>
+            <br/>
               {/*  Input text to find the symbol price */}
               <span><TextField 
                   id="outlined-basic" 
-                  label="Symbol" 
+                  label={symbol}
                   variant="outlined" 
                   onChange= { (event) => handleSymbolChange(event)}
               />
@@ -252,19 +281,6 @@ function App() {
               >
                  $ Get Price
               </Button>
-                  <div style= { display == false? style.Nonedisplay : style.display} >
-                      <TextField onChange={(event) => setShortPut(event)}  style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Strike Put" variant="outlined" />
-                      <TextField onChange={(event) => setShortPutPrice(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-                      <TextField onChange={(event) => setLongPut(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Strike Put" variant="outlined" />
-                      <TextField onChange={(event) => setLongPutPrice(event)} style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-                  </div>
-              </div> 
-            )
-        }
-        if ( value == "bear-put" ){
-  
-          return (  
-            <div>
             <h3> Example </h3>
             <Button
                 style= {style.button}
@@ -284,31 +300,11 @@ function App() {
             >
                 Sell 345 Put
             </Button>
-            <br/>
-            <br/>
-              {/*  Input text to find the symbol price */}
-              <span><TextField 
-                  id="outlined-basic" 
-                  label="Symbol" 
-                  variant="outlined" 
-                  onChange= { (event) => handleSymbolChange(event)}
-              />
-  
-              <h3> $ {symbolPrice}</h3></span>  
-  
-              {/*  Button sending request to get price of the symbol  */}
-              <Button
-                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
-                  variant="contained"
-                  color="primary"
-                  onClick = { () => handleSymbolPrice ()}
-              >
-                 $ Get Price
-              </Button>
+            
           <div style= { display == false? style.Nonedisplay : style.display} >
             <TextField style= {{ margin: "1%"}} 
                   type= "number" id="outlined-basic" 
-                  label="Long Strike Put" 
+                  label="Long Put" 
                   variant="outlined" 
                   onChange={(event) => setLongPut(event)}/>
             <TextField 
@@ -319,7 +315,7 @@ function App() {
             <TextField 
                   style= {{ margin: "1%"}} 
                   type= "number" id="outlined-basic" 
-                  label="Short Strike Put" 
+                  label="Short Put" 
                   variant="outlined" 
                   onChange={(event) => setShortPut(event)}/>
             <TextField 
@@ -337,6 +333,27 @@ function App() {
           
           return (  
             <div>
+               <br/>
+              <br/>
+              {/*  Input text to find the symbol price */}
+              <span><TextField 
+                  id="outlined-basic" 
+                  label={symbol}
+                  variant="outlined" 
+                  onChange= { (event) => handleSymbolChange(event)}
+              />
+  
+              <h3> $ {symbolPrice}</h3></span>  
+  
+              {/*  Button sending request to get price of the symbol  */}
+              <Button
+                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
+                  variant="contained"
+                  color="primary"
+                  onClick = { () => handleSymbolPrice ()}
+              >
+                 $ Get Price
+              </Button>
             <h3> Example </h3>
            
           <Button
@@ -360,9 +377,9 @@ function App() {
          
             <br/>
             <br/>
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Strike Call" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long  Call" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Strike Call" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short  Call" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
             </div>
           )
@@ -370,6 +387,27 @@ function App() {
       if ( value == "bear-call" ){
         return (  
           <div>
+             <br/>
+              <br/>
+              {/*  Input text to find the symbol price */}
+              <span><TextField 
+                  id="outlined-basic" 
+                  label={symbol}
+                  variant="outlined" 
+                  onChange= { (event) => handleSymbolChange(event)}
+              />
+  
+              <h3> $ {symbolPrice}</h3></span>  
+  
+              {/*  Button sending request to get price of the symbol  */}
+              <Button
+                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
+                  variant="contained"
+                  color="primary"
+                  onClick = { () => handleSymbolPrice ()}
+              >
+                 $ Get Price
+              </Button>
           <h3> Example </h3>
           <Button
               style= {style.button}
@@ -392,10 +430,10 @@ function App() {
          
           <br/>
           <br/>
-          <TextField style= {{ margin: "1%"}} type="number" id="outlined-basic" label="Short Strike Call" variant="outlined" />
-          <TextField style= {{ margin: "1%"}} type="number" id="outlined-basic" label="$" variant="outlined" />
-          <TextField style= {{ margin: "1%"}} type="number" id="outlined-basic" label="Long Strike Call" variant="outlined" />
-          <TextField style= {{ margin: "1%"}} type="number" id="outlined-basic" label="$" variant="outlined" />
+          <TextField style= {{ margin: "1%"}} min="0" type="number" id="outlined-basic" label="Short Call" variant="outlined" />
+          <TextField style= {{ margin: "1%"}} min="0" type="number" id="outlined-basic" label="$" variant="outlined" />
+          <TextField style= {{ margin: "1%"}} min="0" type="number" id="outlined-basic" label="Long Call" variant="outlined" />
+          <TextField style= {{ margin: "1%"}} min="0" type="number" id="outlined-basic" label="$" variant="outlined" />
           </div>
           
         )
@@ -404,6 +442,27 @@ function App() {
   
           return (  
             <div>
+               <br/>
+              <br/>
+              {/*  Input text to find the symbol price */}
+              <span><TextField 
+                  id="outlined-basic" 
+                  label={symbol}
+                  variant="outlined" 
+                  onChange= { (event) => handleSymbolChange(event)}
+              />
+  
+              <h3> $ {symbolPrice}</h3></span>  
+  
+              {/*  Button sending request to get price of the symbol  */}
+              <Button
+                  style= {{backgroundColor: "green", borderRadius: "1rem"}}
+                  variant="contained"
+                  color="primary"
+                  onClick = { () => handleSymbolPrice ()}
+              >
+                 $ Get Price
+              </Button>
             <h3> Example </h3>
             <Button
                   style= {style.button}
@@ -446,13 +505,13 @@ function App() {
            
             <br/>
             <br/>
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Strike Call" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Call" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Strike Call" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Call" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Strike Put" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Short Put" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
-            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Strike Put" variant="outlined" />
+            <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="Long Put" variant="outlined" />
             <TextField style= {{ margin: "1%"}} type= "number" id="outlined-basic" label="$" variant="outlined" />
           </div>)
     }
@@ -469,45 +528,23 @@ function App() {
    
   return (
     <div className="App">
-          {/* <div className="marketOutLook"> */}
-            {/* <div className="marketChild"> */}
-                {/* <Menu /> */}
-            {/* </div> */}
-          {/* <div className="marketChild"> */}
-          {/* <ActiveListDaily /> */}
-          {/* </div> */}
-          {/* </div> */}
+        
           <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Open alert dialog
-        </Button>
+       
         <Dialog
           open={open}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Please enter your trade !"}</DialogTitle>
-          <DialogContent>
+          <DialogTitle id="alert-dialog-title" >{"Please enter your trade !"}</DialogTitle>
+          <DialogContent >
             <DialogContentText id="alert-dialog-description">
-  
-            {/* <ButtonGroup
-          orientation="vertical"
-          color="primary"
-          aria-label="vertical contained primary button group"
-          variant="contained"
-        >
-          <Button color="secondary" id= {1} onClick= { (event) => handleOption (event)}>Bull Put Credit Spread</Button>
-          <Button >Bull Put Debit Spread</Button>
-          <Button color="secondary">Bull Call Credit Spread</Button>
-          <Button>Bull Call Dedit Spread</Button>
-  
-        </ButtonGroup> */}
           <FormControl component="fieldset">
               <FormLabel component="legend">Option Strategy</FormLabel>
               <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
                   <FormControlLabel value="bull-put" control={<Radio />} label="Bull Put Credit Spread (bullish)"/> 
-                  <FormControlLabel value="bear-put" control={<Radio />} label="Bear Put Dedit Spread (bearish)" /> 
+                  <FormControlLabel value="bear-put" control={<Radio />} label="Bear Put Debit Spread (bearish)" /> 
                   <FormControlLabel value="bear-call" control={<Radio />} label="Bear Call Credit Spread (bearish)" />
                   <FormControlLabel value="bull-call" control={<Radio />} label="Bull Call Dedit Spread (bullish)" />
                   <FormControlLabel value="iron-normal" control={<Radio />} label="Iron Condor Normal (neutral)" />
@@ -533,7 +570,13 @@ function App() {
           lossPoints={loss} 
           profitPoints={profit}
           credit={strategy.option.shortPut.price - strategy.option.longPut.price}
-          maxLoss={strategy.option.shortPut.strike - strategy.option.longPut.strike}/>
+          maxLoss={strategy.option.shortPut.strike - strategy.option.longPut.strike - (strategy.option.shortPut.price - strategy.option.longPut.price)}/>
+        <div>
+          <Button style={{backgroundColor:"green", color: "black"}} variant="contained" onClick={handleClickOpen}>
+            
+            Option Strategy Test
+          </Button>
+        </div>
     </div>
   );
   }
