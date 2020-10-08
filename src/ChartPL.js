@@ -3,8 +3,7 @@ import   React, {Component, useEffect, useState} from 'react';
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import SelectStrategy from './SelectStrategy'
-import SelectTr from './SelectTr'
+import SelectTr from './SelectTrategy'
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import CardActions from '@material-ui/core/CardActions';
@@ -62,7 +61,7 @@ export default function ChartPL ( props) {
               text: "Credit: $" + credit
               },
               {
-              text: "Max Loss: $" + (maxLoss*100)
+              text: "Max Loss: $" + Math.abs(maxLoss * 100)
               }],
 			axisY: {
 				title: "Profit/Loss",
@@ -92,7 +91,7 @@ export default function ChartPL ( props) {
      }
 
      return (
-        <div  style = {{ width: "70%", margin: "10%"}}className= "chartPLContainer">
+        <div  style = {{ width: "70%", margin: "15%"}}className= "chartPLContainer">
          
           <CanvasJSChart options = {options}
               /* onRef = {ref => this.chart = ref} */
