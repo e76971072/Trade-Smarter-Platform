@@ -24,8 +24,8 @@ import Long from "@material-ui/icons/ExposurePlus1";
 function App() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("bull-put");
-  const [symbolPrice, setSymbolPrice] = React.useState(0);
-  const [symbol, setSymbol] = React.useState("Symbol");
+  const [symbolPrice, setSymbolPrice] = React.useState("");
+  const [symbol, setSymbol] = React.useState("Ticker");
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
   const [strategy, setStrategy] = React.useState({
@@ -74,7 +74,11 @@ function App() {
           //handle success
           // this.setState ( { dataPoints: response.data.dataPoints})
           console.log(response.data.quote);
-          setSymbolPrice(response.data.quote);
+          if (response.data.quote !== 0) {
+            setSymbolPrice("$" + response.data.quote);
+          } else {
+            setSymbolPrice("Not a valid ticker");
+          }
         })
         .catch(function (response) {
           //handle error
@@ -203,18 +207,22 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            {/*  Button sending request to get price of the symbol  */}
+            <Button
+              style={{
+                backgroundColor: "green",
+                borderRadius: "1rem",
+                margin: 10,
+              }}
+              variant="contained"
+              color="primary"
+              onClick={() => handleSymbolPrice()}
+            >
+              Get Price
+            </Button>
           </span>
+          <h3>{`${symbolPrice}`}</h3>
 
-          {/*  Button sending request to get price of the symbol  */}
-          <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
-            variant="contained"
-            color="primary"
-            onClick={() => handleSymbolPrice()}
-          >
-            $ Get Price
-          </Button>
           <h3> Example </h3>
           <Button
             style={style.button}
@@ -286,17 +294,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -369,17 +380,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
 
@@ -449,17 +463,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -532,17 +549,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -691,6 +711,7 @@ function App() {
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          maxWidth="md"
         >
           <DialogTitle id="alert-dialog-title">
             {"Enter your trade"}
