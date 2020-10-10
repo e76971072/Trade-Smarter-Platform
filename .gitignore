@@ -11,7 +11,7 @@
 # production
 /build
 # credential 
-./trade-smarter-backend/credential.json
+trade-smarter-backend/credential.json
 # misc
 .DS_Store
 .env.local
