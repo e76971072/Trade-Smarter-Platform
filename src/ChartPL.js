@@ -78,7 +78,7 @@ export default function ChartPL(props) {
         xValueFormatString: "Loss",
         yValueFormatString: "#0.## ",
         toolTipContent:
-          ' <span style="color:#6D78AD">{x}</span><br><b>$</b> {y[1]}<br><b>Strike:</b> {y[2]}',
+          ' <span style="color:#6D78AD">{x}</span><br><b>$</b> {y[0]}<br><b>Strike:</b> {y[2]}',
         dataPoints: loss,
       },
     ],
