@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+trade-smarter-backend/__pycache__
+
 # testing
 /coverage
 

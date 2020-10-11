@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import "./App.css";
-import Menu from "./MenuCards";
 import MenuCards from "./MenuCards";
 import ActiveListDaily from "./ActiveListDaily";
 import ChartPL from "./ChartPL";
@@ -13,19 +12,24 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import IconButton from "@material-ui/core/IconButton";
 import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import Short from "@material-ui/icons/ExposureNeg1";
 import Long from "@material-ui/icons/ExposurePlus1";
+import Fade from "@material-ui/core/Fade";
+
+import { withStyles } from "@material-ui/core/styles";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ArrowDropDownCircleIcon from "@material-ui/icons/EditTwoTone";
 
 function App() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("bull-put");
   const [symbolPrice, setSymbolPrice] = React.useState(0);
-  const [symbol, setSymbol] = React.useState("Symbol");
+  const [symbol, setSymbol] = React.useState("Ticker");
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
   const [strategy, setStrategy] = React.useState({
@@ -48,6 +52,16 @@ function App() {
       },
     },
   });
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseDropDown = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -86,6 +100,8 @@ function App() {
     setSymbol(event.currentTarget.value.toUpperCase());
   };
 
+  const openMenu = Boolean(anchorEl);
+
   const handleClose = () => {
     setOpen(!open);
   };
@@ -93,6 +109,18 @@ function App() {
   const handleOption = (event) => {
     console.log(event.currentTarget.id);
   };
+  const handleGetItem = (event) => {
+    setValue(event.currentTarget.id);
+  };
+  const options = {
+    "bull-put": "Bull Put Credit Spread",
+    "bear-put": "Bear Put Debit Spread",
+    "bull-call": "Bull Call Debit Spread",
+    "bear-call": "Bear Call Credit Spread",
+    "iron-normal": "Iron Condor",
+  };
+
+  const ITEM_HEIGHT = 48;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -698,39 +726,52 @@ function App() {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <FormControl component="fieldset">
-                <FormLabel component="legend">Option Strategy</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  value={value}
-                  onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value="bull-put"
-                    control={<Radio />}
-                    label="Bull Put Credit Spread (Bullish)"
-                  />
-                  <FormControlLabel
-                    value="bear-put"
-                    control={<Radio />}
-                    label="Bear Put Debit Spread (Bearish)"
-                  />
-                  <FormControlLabel
-                    value="bear-call"
-                    control={<Radio />}
-                    label="Bear Call Credit Spread (Bearish)"
-                  />
-                  <FormControlLabel
-                    value="bull-call"
-                    control={<Radio />}
-                    label="Bull Call Debit Spread (Bullish)"
-                  />
-                  <FormControlLabel
-                    value="iron-normal"
-                    control={<Radio />}
-                    label="Iron Condor (Neutral)"
-                  />
-                </RadioGroup>
+                <FormLabel component="legend">Select Option Strategy</FormLabel>
+                <div>
+                  <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <ArrowDropDownCircleIcon style={{ fontSize: "1.5em" }} />
+                  </IconButton>
+                  <Menu
+                    id="long-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={openMenu}
+                    onClose={handleCloseDropDown}
+                    PaperProps={{
+                      style: {
+                        maxHeight: ITEM_HEIGHT * 4.5,
+                        width: "20ch",
+                      },
+                    }}
+                  >
+                    {Object.keys(options).map((key, keyIndex) => (
+                      <MenuItem
+                        key={options[key]}
+                        selected={options[key] === "Pyxis"}
+                        id={key}
+                        onClick={(event) => {
+                          handleGetItem(event);
+                          handleCloseDropDown(event);
+                        }}
+                      >
+                        {options[key]}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </div>
+
+                {/* 
+                
+                
+                eND TESTIN 
+                
+                
+                */}
               </FormControl>
               {TypeOfStrategy()}
             </DialogContentText>
