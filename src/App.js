@@ -87,7 +87,11 @@ function App() {
     }
   };
   const handleSymbolChange = (event) => {
-    setSymbol(event.currentTarget.value.toUpperCase());
+    // replace fixes bug when user enters spaces
+    //TODO replace all characters !== [a-z,A-Z,0-9,.] (these are acceptable ticker characters)
+    setSymbol(
+      event.currentTarget.value.toUpperCase().replace(/\s/g || /\./g, "")
+    );
   };
 
   const handleClose = () => {
@@ -221,7 +225,7 @@ function App() {
               Get Price
             </Button>
           </span>
-          <h3>{`${symbolPrice}`}</h3>
+          <h3>{`Current Price: ${symbolPrice}`}</h3>
 
           <h3> Example </h3>
           <Button
@@ -294,7 +298,7 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3>{`${symbolPrice}`}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
           <Button
@@ -380,7 +384,7 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3>{`${symbolPrice}`}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
           <Button
@@ -463,7 +467,7 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3>{`${symbolPrice}`}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
           <Button
@@ -549,7 +553,7 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3>{`${symbolPrice}`}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
           <Button
@@ -757,7 +761,11 @@ function App() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button
+              onClick={handleClose}
+              style={(style.button, { fontSize: "initial" })}
+              variant="contained"
+            >
               Cancel
             </Button>
             <Button
@@ -765,7 +773,10 @@ function App() {
                 handleSubmit(event);
                 handleClose();
               }}
+              style={(style.button, { fontSize: "initial" })}
+              variant="contained"
               color="primary"
+              // className={classes.button}
               autoFocus
             >
               Submit
