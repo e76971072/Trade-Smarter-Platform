@@ -5,12 +5,16 @@
 /.pnp
 .pnp.js
 
+trade-smarter-backend/__pycache__
+
 # testing
 /coverage
 
 # production
 /build
-
+# credential 
+trade-smarter-backend/test.json
+trade-smarter-backend/credential.json
 # misc
 .DS_Store
 .env.local
