@@ -23,16 +23,17 @@ import { withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ArrowDropDownCircleIcon from "@material-ui/icons/EditTwoTone";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 function App() {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("bull-put");
-  const [symbolPrice, setSymbolPrice] = React.useState(0);
-  const [symbol, setSymbol] = React.useState("Ticker");
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("bull-put");
+  const [symbolPrice, setSymbolPrice] = useState(0);
+  const [symbol, setSymbol] = useState("Ticker");
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
-  const [strategy, setStrategy] = React.useState({
+  const [titleStrategy, setTitleStrategy] = useState("Select Strategy");
+  const [strategy, setStrategy] = useState({
     option: {
       shortPut: {
         strike: 0,
@@ -52,7 +53,13 @@ function App() {
       },
     },
   });
-
+  const options = {
+    "bull-put": "Bull Put Credit Spread",
+    "bear-put": "Bear Put Debit Spread",
+    "bull-call": "Bull Call Debit Spread",
+    "bear-call": "Bear Call Credit Spread",
+    "iron-normal": "Iron Condor",
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -111,13 +118,7 @@ function App() {
   };
   const handleGetItem = (event) => {
     setValue(event.currentTarget.id);
-  };
-  const options = {
-    "bull-put": "Bull Put Credit Spread",
-    "bear-put": "Bear Put Debit Spread",
-    "bull-call": "Bull Call Debit Spread",
-    "bear-call": "Bear Call Credit Spread",
-    "iron-normal": "Iron Condor",
+    setTitleStrategy(options[event.currentTarget.id]);
   };
 
   const ITEM_HEIGHT = 48;
@@ -208,6 +209,10 @@ function App() {
     button: {
       margin: "1%",
     },
+    longButton: {
+      background: "green",
+      margin: "1%",
+    },
     display: {
       display: "in-line",
     },
@@ -236,7 +241,7 @@ function App() {
 
           {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{ borderRadius: "1rem" }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
@@ -262,6 +267,8 @@ function App() {
           >
             Buy 340 Put
           </Button>
+          <br />
+          <br />
 
           <div>
             <TextField
@@ -345,7 +352,8 @@ function App() {
           >
             Sell 345 Put
           </Button>
-
+          <br />
+          <br />
           <div>
             <TextField
               style={{ margin: "1%" }}
@@ -565,7 +573,7 @@ function App() {
 
           {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{ borderRadius: "1rem" }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
@@ -583,7 +591,7 @@ function App() {
             Sell 200 Put
           </Button>
           <Button
-            style={style.button}
+            style={style.longButton}
             variant="contained"
             color="primary"
             // className={classes.button}
@@ -602,7 +610,7 @@ function App() {
             Sell 350 Call
           </Button>
           <Button
-            style={style.button}
+            style={style.longButton}
             variant="contained"
             color="primary"
             // className={classes.button}
@@ -719,6 +727,7 @@ function App() {
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
+          style={{ height: "90%" }}
         >
           <DialogTitle id="alert-dialog-title">
             {"Enter your trade"}
@@ -726,16 +735,12 @@ function App() {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               <FormControl component="fieldset">
-                <FormLabel component="legend">Select Option Strategy</FormLabel>
+                {/* <FormLabel component="legend">Select Option Strategy</FormLabel> */}
                 <div>
-                  <IconButton
-                    aria-label="more"
-                    aria-controls="long-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                  >
-                    <ArrowDropDownCircleIcon style={{ fontSize: "1.5em" }} />
-                  </IconButton>
+                  <Button variant="contained" onClick={handleClick}>
+                    {titleStrategy}
+                    <ArrowDropDownIcon />
+                  </Button>
                   <Menu
                     id="long-menu"
                     anchorEl={anchorEl}
