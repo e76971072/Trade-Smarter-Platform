@@ -28,7 +28,7 @@ import ArrowDropDownCircleIcon from "@material-ui/icons/EditTwoTone";
 function App() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("bull-put");
-  const [symbolPrice, setSymbolPrice] = React.useState(0); // TODO: empty string instead?
+  const [symbolPrice, setSymbolPrice] = React.useState("");
   const [symbol, setSymbol] = React.useState("Ticker");
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
@@ -101,10 +101,10 @@ function App() {
     }
   };
   const handleSymbolChange = (event) => {
-    // replace fixes bug when user enters spaces
-    //TODO replace all characters !== [a-z,A-Z,0-9,.] (these are acceptable ticker characters)
+    // replace fixes bug when user enters spaces  or special characters
+    //TODO mask the input so user can't even type in special characters
     setSymbol(
-      event.currentTarget.value.toUpperCase().replace(/\s/g || /\./g, "")
+      event.currentTarget.value.toUpperCase().replace(/[^a-zA-Z0-9.]/g, "")
     );
   };
 
