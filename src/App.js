@@ -255,6 +255,7 @@ function App() {
               id="outlined-basic"
               label="Short Put"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setShortPutPrice(event)}
@@ -263,6 +264,7 @@ function App() {
               id="outlined-basic"
               label="$"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setLongPut(event)}
@@ -271,6 +273,7 @@ function App() {
               id="outlined-basic"
               label="Long Put"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setLongPutPrice(event)}
@@ -279,6 +282,7 @@ function App() {
               id="outlined-basic"
               label="$"
               variant="outlined"
+              autoComplete="off"
             />
           </div>
         </div>
@@ -341,6 +345,7 @@ function App() {
               label="Long Put"
               variant="outlined"
               onChange={(event) => setLongPut(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -349,6 +354,7 @@ function App() {
               label="$"
               variant="outlined"
               onChange={(event) => setLongPutPrice(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -357,6 +363,7 @@ function App() {
               label="Short Put"
               variant="outlined"
               onChange={(event) => setShortPut(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -365,6 +372,7 @@ function App() {
               label="$"
               variant="outlined"
               onChange={(event) => setShortPutPrice(event)}
+              autoComplete="off"
             />
           </div>
         </div>
@@ -426,8 +434,9 @@ function App() {
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
-            label="Long  Call"
+            label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -435,13 +444,15 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
-            label="Short  Call"
+            label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -449,6 +460,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -511,6 +523,7 @@ function App() {
             id="outlined-basic"
             label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -519,6 +532,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -527,6 +541,7 @@ function App() {
             id="outlined-basic"
             label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -535,6 +550,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -617,6 +633,7 @@ function App() {
             id="outlined-basic"
             label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongCallPrice(event)}
@@ -625,6 +642,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortCall(event)}
@@ -633,6 +651,7 @@ function App() {
             id="outlined-basic"
             label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortCallPrice(event)}
@@ -641,6 +660,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortPut(event)}
@@ -649,6 +669,7 @@ function App() {
             id="outlined-basic"
             label="Short Put"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortPutPrice(event)}
@@ -657,6 +678,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongPut(event)}
@@ -665,6 +687,7 @@ function App() {
             id="outlined-basic"
             label="Long Put"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongPutPrice(event)}
@@ -673,6 +696,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -715,7 +739,6 @@ function App() {
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          maxWidth="md"
         >
           <DialogTitle id="alert-dialog-title">
             {"Enter your trade"}
