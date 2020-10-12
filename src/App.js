@@ -28,7 +28,7 @@ import ArrowDropDownCircleIcon from "@material-ui/icons/EditTwoTone";
 function App() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("bull-put");
-  const [symbolPrice, setSymbolPrice] = React.useState(0);
+  const [symbolPrice, setSymbolPrice] = React.useState("");
   const [symbol, setSymbol] = React.useState("Ticker");
   const [profit, setProfit] = useState([]);
   const [loss, setLoss] = useState([]);
@@ -88,7 +88,11 @@ function App() {
           //handle success
           // this.setState ( { dataPoints: response.data.dataPoints})
           console.log(response.data.quote);
-          setSymbolPrice(response.data.quote);
+          if (response.data.quote !== 0) {
+            setSymbolPrice("$" + response.data.quote);
+          } else {
+            setSymbolPrice("Not a valid ticker");
+          }
         })
         .catch(function (response) {
           //handle error
@@ -97,7 +101,11 @@ function App() {
     }
   };
   const handleSymbolChange = (event) => {
-    setSymbol(event.currentTarget.value.toUpperCase());
+    // replace fixes bug when user enters spaces  or special characters
+    //TODO mask the input so user can't even type in special characters
+    setSymbol(
+      event.currentTarget.value.toUpperCase().replace(/[^a-zA-Z0-9.]/g, "")
+    );
   };
 
   const openMenu = Boolean(anchorEl);
@@ -231,18 +239,22 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            {/*  Button sending request to get price of the symbol  */}
+            <Button
+              style={{
+                backgroundColor: "green",
+                borderRadius: "1rem",
+                margin: 10,
+              }}
+              variant="contained"
+              color="primary"
+              onClick={() => handleSymbolPrice()}
+            >
+              Get Price
+            </Button>
           </span>
+          <h3>{`Current Price: ${symbolPrice}`}</h3>
 
-          {/*  Button sending request to get price of the symbol  */}
-          <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
-            variant="contained"
-            color="primary"
-            onClick={() => handleSymbolPrice()}
-          >
-            $ Get Price
-          </Button>
           <h3> Example </h3>
           <Button
             style={style.button}
@@ -271,6 +283,7 @@ function App() {
               id="outlined-basic"
               label="Short Put"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setShortPutPrice(event)}
@@ -279,6 +292,7 @@ function App() {
               id="outlined-basic"
               label="$"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setLongPut(event)}
@@ -287,6 +301,7 @@ function App() {
               id="outlined-basic"
               label="Long Put"
               variant="outlined"
+              autoComplete="off"
             />
             <TextField
               onChange={(event) => setLongPutPrice(event)}
@@ -295,6 +310,7 @@ function App() {
               id="outlined-basic"
               label="$"
               variant="outlined"
+              autoComplete="off"
             />
           </div>
         </div>
@@ -314,17 +330,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -354,6 +373,7 @@ function App() {
               label="Long Put"
               variant="outlined"
               onChange={(event) => setLongPut(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -362,6 +382,7 @@ function App() {
               label="$"
               variant="outlined"
               onChange={(event) => setLongPutPrice(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -370,6 +391,7 @@ function App() {
               label="Short Put"
               variant="outlined"
               onChange={(event) => setShortPut(event)}
+              autoComplete="off"
             />
             <TextField
               style={{ margin: "1%" }}
@@ -378,6 +400,7 @@ function App() {
               label="$"
               variant="outlined"
               onChange={(event) => setShortPutPrice(event)}
+              autoComplete="off"
             />
           </div>
         </div>
@@ -397,17 +420,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
 
@@ -436,8 +462,9 @@ function App() {
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
-            label="Long  Call"
+            label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -445,13 +472,15 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
             type="number"
             id="outlined-basic"
-            label="Short  Call"
+            label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -459,6 +488,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -477,17 +507,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -518,6 +551,7 @@ function App() {
             id="outlined-basic"
             label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -526,6 +560,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -534,6 +569,7 @@ function App() {
             id="outlined-basic"
             label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             style={{ margin: "1%" }}
@@ -542,6 +578,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -560,17 +597,20 @@ function App() {
               onChange={(event) => handleSymbolChange(event)}
             />
 
-            <h3> $ {symbolPrice}</h3>
+            <h3>{`Current Price: ${symbolPrice}`}</h3>
           </span>
 
-          {/*  Button sending request to get price of the symbol  */}
           <Button
-            style={{ backgroundColor: "green", borderRadius: "1rem" }}
+            style={{
+              backgroundColor: "green",
+              borderRadius: "1rem",
+              margin: 10,
+            }}
             variant="contained"
             color="primary"
             onClick={() => handleSymbolPrice()}
           >
-            $ Get Price
+            Get Price
           </Button>
           <h3> Example </h3>
           <Button
@@ -621,6 +661,7 @@ function App() {
             id="outlined-basic"
             label="Long Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongCallPrice(event)}
@@ -629,6 +670,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortCall(event)}
@@ -637,6 +679,7 @@ function App() {
             id="outlined-basic"
             label="Short Call"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortCallPrice(event)}
@@ -645,6 +688,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortPut(event)}
@@ -653,6 +697,7 @@ function App() {
             id="outlined-basic"
             label="Short Put"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setShortPutPrice(event)}
@@ -661,6 +706,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongPut(event)}
@@ -669,6 +715,7 @@ function App() {
             id="outlined-basic"
             label="Long Put"
             variant="outlined"
+            autoComplete="off"
           />
           <TextField
             onChange={(event) => setLongPutPrice(event)}
@@ -677,6 +724,7 @@ function App() {
             id="outlined-basic"
             label="$"
             variant="outlined"
+            autoComplete="off"
           />
         </div>
       );
@@ -777,7 +825,11 @@ function App() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button
+              onClick={handleClose}
+              style={(style.button, { fontSize: "initial" })}
+              variant="contained"
+            >
               Cancel
             </Button>
             <Button
@@ -785,7 +837,10 @@ function App() {
                 handleSubmit(event);
                 handleClose();
               }}
+              style={(style.button, { fontSize: "initial" })}
+              variant="contained"
               color="primary"
+              // className={classes.button}
               autoFocus
             >
               Submit

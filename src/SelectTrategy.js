@@ -157,7 +157,7 @@ export default function AlertDialog() {
           <span>
             <TextField
               id="outlined-basic"
-              label="Symbol"
+              label="Ticker"
               variant="outlined"
               onChange={(event) => handleSymbolChange(event)}
             />
