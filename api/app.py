@@ -1,7 +1,6 @@
 import os
 import TradeSmartPackage as Trade
-from flask import Flask, request
-import ast
+from flask import Flask, request, jsonify
 import json
 from flask_cors import CORS
 import ast
@@ -11,9 +10,9 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def hello():
-    return "Hello"
+    return "Hello There"
 
 
 @app.route('/optionTable', methods=['GET', 'POST'])
@@ -57,11 +56,11 @@ def bullPutData():
     bidShort = dictionary.get("shortPut").get("price")
     bidLong = dictionary.get("longPut").get("price")
     underlyingPrice = request.form.get("underlyingPrice")
-    bullPutSpreadLoss, bullPutSpreadProfit = Trade.BULL_PUT_SPREAD(int(float(shortStrike)), int(
+    bullPutSpreadLoss, bullPutSpreadProfit = Trade.BEAR_PUT_SPREAD(int(float(shortStrike)), int(
         float(longStrike)), int(float(underlyingPrice)), float(bidShort), float(bidLong))
     # return  {"dataPoints": bullPutSpread}
 
-    return {"profitDataPoints": bullPutSpreadProfit, "lossDataPoints": bullPutSpreadLoss, "symbol": symbol}
+    return jsonify({"profitDataPoints": bullPutSpreadProfit, "lossDataPoints": bullPutSpreadLoss, "symbol": symbol})
 
 
 @app.route('/option/strategy/bear-put', methods=['GET', 'POST'])
@@ -102,27 +101,28 @@ def bearPutData():
         float(longStrike)), int(float(underlyingPrice)), float(bidShort), float(bidLong))
     # return  {"dataPoints": bullPutSpread}
 
-    return {"profitDataPoints": bullPutSpreadProfit, "lossDataPoints": bullPutSpreadLoss, "symbol": symbol}
+    return jsonify({"profitDataPoints": bullPutSpreadProfit, "lossDataPoints": bullPutSpreadLoss, "symbol": symbol})
 
 
 @app.route('/symbol/price', methods=['GET', 'POST'])
 def getPrice():
-    return {"quote": Trade.getStockPrice(request.form.get("symbol"))}
-
-
-@app.route('/example', methods=['GET', 'POST'])
-def example():
-    print(request.form)
-    return "something"
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        print(form)
+    return jsonify({"quote": Trade.getStockPrice(form["symbol"])})
 
 
 @app.route('/option/strategy/iron-normal', methods=['GET', 'POST'])
 def ironCondorNormal():
-    dictionary = request.form.to_dict()
+    dictionary = convert_request_to_dict(request)
     dictionary = ast.literal_eval(dictionary.get("data"))
     dictionary = dictionary.get("option")
     print(dictionary)
 
     ICProfit, ICLoss = Trade.getIC(dictionary.get("longCall"), dictionary.get("shortCall"), dictionary.get(
         "shortPut"), dictionary.get("longPut"), dictionary.get("underlyingPrice"))
-    return {"profitDataPoints": ICProfit, "lossDataPoints": ICLoss, "symbol":  dictionary.get("symbol")}
+    return jsonify({"profitDataPoints": ICProfit, "lossDataPoints": ICLoss, "symbol":  dictionary.get("symbol")})
+
+
+def convert_request_to_dict(request):
+    return request.form.to_dict()

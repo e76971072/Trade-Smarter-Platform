@@ -12,17 +12,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
-import IconButton from "@material-ui/core/IconButton";
-import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import Short from "@material-ui/icons/ExposureNeg1";
 import Long from "@material-ui/icons/ExposurePlus1";
-import Fade from "@material-ui/core/Fade";
-
-import { withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 function App() {
@@ -742,10 +736,10 @@ function App() {
   return (
     <div className="App">
       <div>
-        {/* <div>
-          <MenuCards />
-          <ActiveListDaily />
-        </div> */}
+        <div>
+          {/* <MenuCards /> */}
+          {/* <ActiveListDaily /> */}
+        </div>
         <div style={{ textAlign: "center", marginTop: "10%" }}>
           <Button
             style={{ backgroundColor: "green", color: "black" }}

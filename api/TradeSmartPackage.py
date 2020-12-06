@@ -82,6 +82,7 @@ def getStockPrice(symbol):
     URL = data["finHubAPI"].format(symbol)
     r = requests.get(URL)
     r = r.json()
+    print(r)
     return r.get("c")
 
 
